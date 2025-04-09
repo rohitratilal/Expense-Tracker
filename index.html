@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Expense Tracker</title>
+    <title>Char Dham Expense Tracker</title>
     <style>
         :root {
             --primary: #4361ee;
@@ -22,38 +22,44 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: #f5f7ff;
             color: var(--dark);
             line-height: 1.6;
             padding: 0;
-            max-width: 500px;
-            margin: 0 auto;
+            margin: 0;
             min-height: 100vh;
         }
         
         .container {
-            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+            min-height: 100vh;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
         
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
+        .header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 20px;
+            padding-bottom: 80px; /* Space for tab bar */
         }
         
         .step {
             display: none;
-            background: white;
-            padding: 25px;
-            border-radius: var(--border-radius);
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
             animation: fadeIn 0.3s ease;
         }
         
@@ -61,28 +67,33 @@
             display: block;
         }
         
+        h2 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--dark);
-            font-size: 0.9rem;
         }
         
         input, select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 15px;
             margin-bottom: 20px;
             border: 1px solid #e0e0e0;
             border-radius: var(--border-radius);
             font-size: 1rem;
-            transition: border 0.2s;
+            background: #f8f9fa;
         }
         
         input:focus, select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+            background: white;
         }
         
         .input-group {
@@ -97,10 +108,11 @@
             border: 1px solid #e0e0e0;
             border-right: none;
             border-radius: var(--border-radius) 0 0 var(--border-radius);
-            height: 46px;
+            height: 48px;
             display: flex;
             align-items: center;
             font-weight: 600;
+            background: #f8f9fa;
         }
         
         .input-group input {
@@ -112,7 +124,7 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 12px 15px;
+            padding: 15px;
             border-radius: var(--border-radius);
             cursor: pointer;
             width: 100%;
@@ -123,17 +135,12 @@
         
         button:hover {
             background-color: var(--primary-light);
-            transform: translateY(-1px);
-        }
-        
-        button:active {
-            transform: translateY(0);
         }
         
         .button-group {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
         
         .button-group button {
@@ -154,7 +161,6 @@
             margin: 15px 0;
             border-radius: var(--border-radius);
             display: none;
-            box-shadow: var(--shadow);
         }
         
         .image-actions {
@@ -167,26 +173,12 @@
             flex: 1;
         }
         
-        .image-actions button:first-child {
-            background-color: var(--success);
-        }
-        
-        .image-actions button:last-child {
-            background-color: var(--gray);
-        }
-        
-        #history {
-            margin-top: 30px;
-        }
-        
         .history-item {
-            background: white;
-            padding: 20px;
+            background: #f8f9fa;
+            padding: 15px;
             margin-bottom: 15px;
             border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
             position: relative;
-            animation: slideUp 0.3s ease;
         }
         
         .history-item h3 {
@@ -231,20 +223,60 @@
             padding: 0;
         }
         
-        .delete-btn:hover {
-            background-color: #e3176a;
-        }
-        
         .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: var(--gray);
         }
         
-        .empty-state img {
-            width: 100px;
-            opacity: 0.7;
-            margin-bottom: 15px;
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-top: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .today-btn {
+            background-color: #e9ecef;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .today-btn:hover {
+            background-color: #dee2e6;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .currency-selector {
@@ -278,165 +310,150 @@
             background-color: #25D366;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .currency-dropdown {
+            width: 80px;
+            margin-right: 10px;
         }
         
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Floating action button */
-        .fab {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
+        .amount-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
-            z-index: 100;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .fab:hover {
-            background-color: var(--primary-light);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Travel Expense Tracker</h1>
-<div id="totals" style="margin: 10px 0; font-weight: bold; text-align:center;"></div>
-        
-        <!-- Currency Selection -->
-        <div class="currency-selector">
-            <div class="currency-option">
-                <input type="radio" id="pound" name="currency" value="£" checked>
-                <label for="pound">Pound (£)</label>
-            </div>
-            <div class="currency-option">
-                <input type="radio" id="rupee" name="currency" value="₹">
-                <label for="rupee">Rupees (₹)</label>
-            </div>
+        <div class="header">
+            Char Dham Expense Tracker
         </div>
         
-        <!-- Step 1: Expense Type -->
-        <div id="step1" class="step active">
-            <h2>Add Expense</h2>
-            <label for="expenseType">What was it for?</label>
-            <input type="text" id="expenseType" placeholder="e.g. Dinner, Taxi, Hotel">
-            <div class="button-group">
-                <button class="back-btn" disabled>Back</button>
-                <button onclick="nextStep(1)">Next</button>
+        <div class="content">
+            <!-- New Expense Tab Content -->
+            <div id="newExpenseTab" class="tab-content active">
+                <!-- Step 1: Expense Type -->
+                <div id="step1" class="step active">
+                    <h2>Add Expense</h2>
+                    <label for="expenseType">What was it for?</label>
+                    <input type="text" id="expenseType" placeholder="e.g. Dinner, Taxi, Hotel">
+                    <div class="button-group">
+                        <button class="back-btn" disabled>Back</button>
+                        <button onclick="nextStep(1)">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Amount -->
+                <div id="step2" class="step">
+                    <h2>Add Expense</h2>
+                    <label for="amount">How much was it?</label>
+                    <div class="currency-selector">
+                        <div class="currency-option">
+                            <input type="radio" id="entryPound" name="entryCurrency" value="£" checked>
+                            <label for="entryPound">Pound (£)</label>
+                        </div>
+                        <div class="currency-option">
+                            <input type="radio" id="entryRupee" name="entryCurrency" value="₹">
+                            <label for="entryRupee">Rupee (₹)</label>
+                        </div>
+                    </div>
+                    <input type="number" id="amount" placeholder="0.00" step="0.01" min="0">
+                    <div class="button-group">
+                        <button class="back-btn" onclick="prevStep(2)">Back</button>
+                        <button onclick="nextStep(2)">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Date -->
+                <div id="step3" class="step">
+                    <h2>Add Expense</h2>
+                    <label for="expenseDate">When was it?</label>
+                    <input type="date" id="expenseDate">
+                    <button class="today-btn" onclick="setToday()">Use Today</button>
+                    <div class="button-group">
+                        <button class="back-btn" onclick="prevStep(3)">Back</button>
+                        <button onclick="nextStep(3)">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Paid By -->
+                <div id="step4" class="step">
+                    <h2>Add Expense</h2>
+                    <label for="paidBy">Who paid for this?</label>
+                    <input type="text" id="paidBy" placeholder="Enter name">
+                    <div class="button-group">
+                        <button class="back-btn" onclick="prevStep(4)">Back</button>
+                        <button onclick="nextStep(4)">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Step 5: Receipt Image -->
+                <div id="step5" class="step">
+                    <h2>Add Expense</h2>
+                    <label>Add a receipt (optional)</label>
+                    <div class="image-actions">
+                        <button onclick="uploadImage()">Upload</button>
+                    </div>
+                    <img id="imagePreview" alt="Receipt preview">
+                    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                    <div class="button-group">
+                        <button class="back-btn" onclick="prevStep(5)">Back</button>
+                        <button onclick="submitExpense()">Save Expense</button>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <!-- Step 2: Amount -->
-        <div id="step2" class="step">
-            <h2>Add Expense</h2>
-            <label for="amount">How much was it?</label>
-            <div class="input-group">
-                <span id="currencySymbol">£</span>
-                <input type="number" id="amount" placeholder="0.00" step="0.01" min="0">
-            </div>
-            <div class="button-group">
-                <button class="back-btn" onclick="prevStep(2)">Back</button>
-                <button onclick="nextStep(2)">Next</button>
-            </div>
-        </div>
-        
-        <!-- Step 3: Date -->
-        <div id="step3" class="step">
-            <h2>Add Expense</h2>
-            <label for="expenseDate">When was it?</label>
-            <input type="date" id="expenseDate">
-            <button onclick="setToday()" style="margin-bottom: 20px;">Use Today</button>
-            <div class="button-group">
-                <button class="back-btn" onclick="prevStep(3)">Back</button>
-                <button onclick="nextStep(3)">Next</button>
-            </div>
-        </div>
-        
-        <!-- Step 4: Paid By -->
-        <div id="step4" class="step">
-            <h2>Add Expense</h2>
-            <label for="paidBy">Who paid for this?</label>
-            <input type="text" id="paidBy" placeholder="Enter name">
-            <div class="button-group">
-                <button class="back-btn" onclick="prevStep(4)">Back</button>
-                <button onclick="nextStep(4)">Next</button>
-            </div>
-        </div>
-        
-        <!-- Step 5: Receipt Image -->
-        <div id="step5" class="step">
-            <h2>Add Expense</h2>
-            <label>Add a receipt (optional)</label>
-            <div class="image-actions">
-                                <button onclick="uploadImage()">Upload</button>
-            </div>
-            <img id="imagePreview" alt="Receipt preview">
-            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
-            <div class="button-group">
-                <button class="back-btn" onclick="prevStep(5)">Back</button>
-                <button onclick="submitExpense()">Save Expense</button>
-            </div>
-        </div>
-        
-        <!-- History Section -->
-        <div id="history">
-            <h2 style="margin-bottom: 15px;">Your Expenses</h2>
-            <div id="historyList"></div>
             
-            <div class="action-buttons">
-                <button class="export-btn" onclick="exportToExcel()">Export to Excel</button>
-                <button class="whatsapp-btn" onclick="shareToWhatsApp()">Share to WhatsApp</button>
+            <!-- Expenses Tab Content -->
+            <div id="expensesTab" class="tab-content">
+                <h2>Your Expenses</h2>
+                <div id="totals" style="margin-bottom: 20px; font-weight: bold;"></div>
+                <div id="historyList"></div>
+                
+                <div class="action-buttons">
+                    <button class="export-btn" onclick="exportToExcel()">Export to Excel</button>
+                    <button class="whatsapp-btn" onclick="shareToWhatsApp()">Share to WhatsApp</button>
+                </div>
             </div>
+        </div>
+        
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <div class="tab active" onclick="switchTab('newExpenseTab')">New</div>
+            <div class="tab" onclick="switchTab('expensesTab')">Expenses</div>
         </div>
     </div>
-    
-    <!-- Floating Action Button -->
-    <div class="fab" onclick="startNewExpense()">+</div>
 
     <script>
         // Current step tracking
         let currentStep = 1;
         let expenseImage = null;
-        let currencySymbol = '£';
         
         // Set today's date as default
         window.onload = function() {
             setToday();
-            
-            // Currency change handler
-            document.querySelectorAll('input[name="currency"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    currencySymbol = this.value;
-                    document.getElementById('currencySymbol').textContent = currencySymbol;
-                    displayHistory(); // Update displayed amounts with new currency
-                });
-            });
-            
             displayHistory();
         };
+        
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update tab bar styling
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Set active tab
+            if (tabId === 'newExpenseTab') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                startNewExpense();
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+            }
+        }
         
         function startNewExpense() {
             // Reset form and go to step 1
@@ -454,9 +471,6 @@
             // Show first step
             document.getElementById('step1').classList.add('active');
             currentStep = 1;
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
         }
         
         function setToday() {
@@ -493,7 +507,6 @@
             currentStep = step - 1;
         }
         
-                
         function uploadImage() {
             document.getElementById('imageUpload').click();
         }
@@ -517,7 +530,7 @@
             const amount = document.getElementById('amount').value;
             const date = document.getElementById('expenseDate').value;
             const paidBy = document.getElementById('paidBy').value.trim();
-            const currency = document.querySelector('input[name="currency"]:checked').value;
+            const currency = document.querySelector('input[name="entryCurrency"]:checked').value;
             
             // Create expense object
             const expense = {
@@ -541,8 +554,9 @@
             // Update history
             displayHistory();
             
-            // Show confirmation
+            // Show confirmation and switch to expenses tab
             alert('Expense added successfully!');
+            switchTab('expensesTab');
         }
         
         function displayHistory() {
@@ -553,9 +567,8 @@
             if (expenses.length === 0) {
                 historyList.innerHTML = `
                     <div class="empty-state">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyLDJBMTAsMTAgMCAwLDAgMiwxMkExMCwxMCAwIDAsMCAxMiwyMkExMCwxMCAwIDAsMCAyMiwxMkExMCwxMCAwIDAsMCAxMiwyTTcsOTUuNzVWN0gxN1Y5SDlWMTdINy45VjkuNzVINy4yNUw3LDkuNzVWMTdINlY4QTYsNiAwIDAsMSA3LDlNNyw5LjI1VjkuNzVINy4yNVY5LjI1SDdNMTcsMTZWMTQuNUgxMy41VjEzSDE3VjE2TTE5LDE5VjE3SDE3VjE5SDE5TTE5LDYuNVY1SDE3VjYuNUgxOU0xOSw4LjVWN0gxN1Y4LjVIMTlNMTksMTQuNVYxM0gxN1YxNC41SDE5TTE5LDE2LjVWMTVIMTdWMTYuNUgxOU0xOSwxMC41VjlIMTdWMTAuNUgxOU0xOSwxMi41VjExSDE3VjEyLjVIMTlNMTMsMTlWMTdIMTFWMTlIMTNNMTMsMTEuNVYxMEgxMVYxMS41SDEzTTEzLDYuNVY1SDExVjYuNUgxM00xMyw4LjVWN0gxMVY4LjVIMTNNMTMsMTQuNVYxM0gxMVYxNC41SDEzTTEzLDE2LjVWMTVIMTFWMTYuNUgxM001LDE5VjE3SDNWMTlINU05LDE5VjE3SDdWMTlIOVoiIC8+PC9zdmc+" alt="No expenses">
                         <p>No expenses recorded yet</p>
-                        <p>Tap the + button to add your first expense</p>
+                        <p>Tap "New" to add your first expense</p>
                     </div>
                 `;
                 return;
@@ -580,6 +593,20 @@
                 `;
                 historyList.appendChild(item);
             });
+            
+            // Calculate and display totals
+            let currencyTotals = {};
+            expenses.forEach(exp => {
+                const symbol = exp.currency || '£';
+                if (!currencyTotals[symbol]) currencyTotals[symbol] = 0;
+                currencyTotals[symbol] += exp.amount;
+            });
+            
+            const totalsDiv = document.getElementById('totals');
+            totalsDiv.innerHTML = 'Total Spent:<br>' + 
+                Object.entries(currencyTotals)
+                      .map(([cur, amt]) => `${cur}${amt.toFixed(2)}`)
+                      .join(' &nbsp;&nbsp;|&nbsp;&nbsp; ');
         }
         
         function deleteExpense(index) {
@@ -613,7 +640,7 @@
             const a = document.createElement('a');
             a.setAttribute('hidden', '');
             a.setAttribute('href', url);
-            a.setAttribute('download', 'trip_expenses.csv');
+            a.setAttribute('download', 'expenses.csv');
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -628,7 +655,7 @@
             }
             
             // Create message
-            let message = '📊 Trip Expenses Summary:\n\n';
+            let message = '📊 Expenses Summary:\n\n';
             let total = 0;
             const currency = expenses[0]?.currency || '£'; // Use first expense's currency
             
@@ -651,21 +678,6 @@
             
             // Open WhatsApp with the message
             window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
-
-// Totals per currency
-let currencyTotals = {};
-expenses.forEach(exp => {
-    const symbol = exp.currency || '£';
-    if (!currencyTotals[symbol]) currencyTotals[symbol] = 0;
-    currencyTotals[symbol] += exp.amount;
-});
-
-// Display totals
-const totalsDiv = document.getElementById('totals');
-totalsDiv.innerHTML = 'Total Spent:<br>' + 
-    Object.entries(currencyTotals)
-          .map(([cur, amt]) => `${cur}${amt.toFixed(2)}`)
-          .join(' &nbsp;&nbsp;|&nbsp;&nbsp; ');
         }
     </script>
 </body>
