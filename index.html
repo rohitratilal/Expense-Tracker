@@ -324,6 +324,7 @@
 <body>
     <div class="container">
         <h1>Travel Expense Tracker</h1>
+<div id="totals" style="margin: 10px 0; font-weight: bold; text-align:center;"></div>
         
         <!-- Currency Selection -->
         <div class="currency-selector">
@@ -650,6 +651,21 @@
             
             // Open WhatsApp with the message
             window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+
+// Totals per currency
+let currencyTotals = {};
+expenses.forEach(exp => {
+    const symbol = exp.currency || '£';
+    if (!currencyTotals[symbol]) currencyTotals[symbol] = 0;
+    currencyTotals[symbol] += exp.amount;
+});
+
+// Display totals
+const totalsDiv = document.getElementById('totals');
+totalsDiv.innerHTML = 'Total Spent:<br>' + 
+    Object.entries(currencyTotals)
+          .map(([cur, amt]) => `${cur}${amt.toFixed(2)}`)
+          .join(' &nbsp;&nbsp;|&nbsp;&nbsp; ');
         }
     </script>
 </body>
