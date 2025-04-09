@@ -390,8 +390,7 @@
             <h2>Add Expense</h2>
             <label>Add a receipt (optional)</label>
             <div class="image-actions">
-                <button onclick="takePhoto()">Take Photo</button>
-                <button onclick="uploadImage()">Upload</button>
+                                <button onclick="uploadImage()">Upload</button>
             </div>
             <img id="imagePreview" alt="Receipt preview">
             <input type="file" id="imageUpload" accept="image/*" style="display: none;">
@@ -493,11 +492,7 @@
             currentStep = step - 1;
         }
         
-        function takePhoto() {
-            // This would use the device camera in a real app
-            alert('In a real app, this would open the camera. For this demo, please use "Upload"');
-        }
-        
+                
         function uploadImage() {
             document.getElementById('imageUpload').click();
         }
